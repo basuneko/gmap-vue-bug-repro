@@ -4,9 +4,12 @@ import { GmapVuePlugin } from '@gmap-vue/v3';
 import App from './App.vue'
 
 const app = createApp(App)
+
+const googleMapsApiKey = localStorage.getItem('googleMapsApiKey');
+
 app.use(GmapVuePlugin, {
   load: {
-    key: import.meta.env.VITE_GOOGLE_MAPS_KEY
+    key: googleMapsApiKey
   }
 })
 app.mount('#app')

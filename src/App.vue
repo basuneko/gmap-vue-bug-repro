@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="googleMapsApiKey">
     <div class="buttons">
       <button @click="showMarker = !showMarker">{{ showMarker ? 'Hide' : 'Show' }} Marker</button>
       <button @click="showMarkersList = !showMarkersList">{{ showMarkersList ? 'Hide' : 'Show' }} Multiple</button>
@@ -16,10 +16,24 @@
       </GmvMap>
     </div>
   </div>
+  <div v-else class="buttons">
+    <label>
+      Google Maps API Key:
+      <input type="text" v-model="googleMapsApiKeyModel" />
+    </label>
+    <button @click="saveGoogleMapsApiKey">Save in localStorage</button>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+
+const googleMapsApiKey = localStorage.getItem('googleMapsApiKey');
+const googleMapsApiKeyModel = ref();
+function saveGoogleMapsApiKey(): void {
+  localStorage.setItem('googleMapsApiKey', googleMapsApiKeyModel.value);
+  window.location.reload();
+}
 
 // Case 1
 const showMarker = ref(false)
