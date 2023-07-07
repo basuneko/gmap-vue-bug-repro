@@ -1,19 +1,39 @@
 <template>
   <div>
     <div class="buttons">
-      <button @click="showMarker = !showMarker">Toggle Marker</button>
+      <button @click="showMarker = !showMarker">{{ showMarker ? 'Hide' : 'Show' }} Marker</button>
+      <button @click="showMarkersList = !showMarkersList">{{ showMarkersList ? 'Hide' : 'Show' }} Multiple</button>
     </div>
     <div class="map">
       <GmvMap :center="{ lat: 10, lng: 10 }" :zoom="7" map-type-id="terrain">
         <GmvMarker v-if="showMarker" :position="{ lat: 10, lng: 10 }" />
+
+        <GmvMarker v-for="(marker, index) in markersList" :key="index" :position="marker" />
       </GmvMap>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+
+// Case 1
 const showMarker = ref(false)
+
+// Case 2
+const showMarkersList = ref(false)
+
+const markersList = computed(() => {
+  if (showMarkersList.value) {
+    return [
+      { lat: 10, lng: 11 },
+      { lat: 10, lng: 12 },
+      { lat: 10, lng: 13 }
+    ]
+  } else {
+    return []
+  }
+})
 </script>
 
 <style>
