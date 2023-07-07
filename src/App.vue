@@ -3,12 +3,16 @@
     <div class="buttons">
       <button @click="showMarker = !showMarker">{{ showMarker ? 'Hide' : 'Show' }} Marker</button>
       <button @click="showMarkersList = !showMarkersList">{{ showMarkersList ? 'Hide' : 'Show' }} Multiple</button>
+      <label>
+        <input type="checkbox" v-model="markersVisible" />
+        Markers visible
+      </label>
     </div>
     <div class="map">
       <GmvMap :center="{ lat: 10, lng: 10 }" :zoom="7" map-type-id="terrain">
-        <GmvMarker v-if="showMarker" :position="{ lat: 10, lng: 10 }" />
+        <GmvMarker v-if="showMarker" :position="{ lat: 10, lng: 10 }" :options="{ visible: markersVisible }" />
 
-        <GmvMarker v-for="(marker, index) in markersList" :key="index" :position="marker" />
+        <GmvMarker v-for="(marker, index) in markersList" :key="index" :position="marker" :options="{ visible: markersVisible }" />
       </GmvMap>
     </div>
   </div>
@@ -34,6 +38,9 @@ const markersList = computed(() => {
     return []
   }
 })
+
+// Visibility
+const markersVisible = ref(true)
 </script>
 
 <style>
